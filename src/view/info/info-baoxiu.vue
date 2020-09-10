@@ -11,14 +11,20 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>   
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row>
-      <el-table-column label="内容" align="left" prop="Details" width="700px"></el-table-column> 
+      <el-table-column label="类型" align="center" prop="TypeStr" width="120px"></el-table-column>
+      <el-table-column label="内容" align="left" prop="Details"></el-table-column> 
+      <el-table-column label="地址" align="center" prop="CreatedStr" width="180px">
+        <template slot-scope="scope">
+         <span v-text="setaddress(scope.row)"></span>
+        </template>
+      </el-table-column>
       <el-table-column label="时间" align="center" prop="CreatedStr" width="180px"></el-table-column>
       <el-table-column label="状态" align="center" width="100px">
         <template slot-scope="scope">
          <span :class="'status'+scope.row.Status">{{scope.row.StatusStr}}</span>
         </template>
       </el-table-column>  
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" width="100px">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="handle(scope.row)" v-if="scope.row.Status==0">
             操作
@@ -82,6 +88,10 @@ export default {
   mounted () {
   },  
   methods: {
+    setaddress(row){
+      let str=JSON.parse(row.UserJson);
+      return str.Tung+'号楼'+str.Unit+'单元'+str.Number;
+    },
     show(row){
       this.img=[];
       this.detail=row.Details;

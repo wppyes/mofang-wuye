@@ -11,14 +11,12 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>   
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row>
-      <el-table-column label="内容" align="left" prop="Details" width="400px"></el-table-column> 
-      <el-table-column label="回复内容" align="center" prop="Reply" width="250px"></el-table-column>
+      <el-table-column label="内容" align="left" prop="Details"></el-table-column> 
       <el-table-column label="时间" align="center" prop="CreatedStr" width="180px"></el-table-column>
-      <el-table-column label="回复时间" align="center" prop="UpdateTimeStr" width="180px"></el-table-column>
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" width="150px">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="huifu(scope.row)">
-            回复
+            详情
           </el-button>
           <el-button size="mini" type="danger" @click="handledel(scope.row)" >
             <i class="el-icon-delete"></i>
@@ -53,14 +51,14 @@
               :preview-src-list="imgs">
             </el-image>
         </el-form-item>
-        <el-form-item label="回复：" prop="Reply">
+        <!-- <el-form-item label="回复：" prop="Reply">
           <el-input type="textarea" v-model="temp.Reply" placeholder="请填写回复内容" :disabled="isreplay==1" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <!-- <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
         <el-button type="primary" @click="subreplay" :disabled="isreplay==1">确定</el-button>
-      </div>
+      </div> -->
     </el-dialog>
   </div>
 </template>
@@ -175,7 +173,7 @@ export default {
         this.imgs=JSON.parse(row.Img)
       }
       this.dialogFormVisible=true;
-      this.dialogStatus='回复';
+      this.dialogStatus='详情';
        this.$nextTick(() => {
         this.$refs["dataForm"].clearValidate();
       });

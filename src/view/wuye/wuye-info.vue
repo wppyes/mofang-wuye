@@ -94,12 +94,12 @@ export default {
           this.temp.AppId=response.Payment.AppId;
           this.temp.MchId=response.Payment.MchId;
           this.temp.ApiKey=response.Payment.ApiKey;
-          this.Switch=response.Payment.Switch==1?false:true;
+          this.Switch=response.Payment.Switch==1?true:false;
         }
       });
     },  
     changes(){
-      var flag=this.Switch?0:1;
+      var flag=this.Switch?1:0;
       var str = this.Switch?'开启':'关闭';
       var data = this.$qs.stringify({ isswitch: flag});
       this.$confirm("确定要"+str+"支付吗？", "提示", {
