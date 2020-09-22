@@ -32,14 +32,14 @@
                 inactive-text="关闭">
               </el-switch>
             </el-form-item>
-            <el-form-item label="AppId" prop="AppId">
-              <el-input v-model="temp.AppId" placeholder="请填写AppId" />
-            </el-form-item>
             <el-form-item label="MchId" prop="MchId">
-              <el-input v-model="temp.MchId" placeholder="请填写MchId"/>
+              <el-input v-model="temp.MchId" placeholder="请填写MchId" show-password/>
+            </el-form-item>
+            <el-form-item label="AppId" prop="AppId">
+              <el-input v-model="temp.AppId" placeholder="请填写AppId" show-password/>
             </el-form-item>
             <el-form-item label="ApiKey" prop="ApiKey">
-              <el-input v-model="temp.ApiKey" placeholder="请填写ApiKey"/>
+              <el-input v-model="temp.ApiKey" placeholder="请填写ApiKey" show-password/>
             </el-form-item>
           </el-form>    
           <div class="right">

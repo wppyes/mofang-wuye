@@ -184,6 +184,7 @@ export default {
                 message: response.Msg,
                 type: "success"
               });
+              this.$bus.$emit("userschange");
               const index = this.list.indexOf(row);
               this.list.splice(index, 1);
             }
@@ -215,6 +216,7 @@ export default {
             data
           }).then(response => {
             if (response.Status==1) {
+              this.$bus.$emit("userschange");
               this.temp.Id = response.UserId;
               this.temp.RoleName=this.getrolename(this.temp.RoleId);
               this.temp.Role=this.temp.RoleId;

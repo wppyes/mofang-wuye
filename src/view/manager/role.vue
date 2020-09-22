@@ -84,6 +84,14 @@ export default {
       this.listLoading = false;
       }
     });
+    this.getdata();
+  },
+  mounted () {
+    this.$bus.$on('userschange', ()=> {
+      this.getdata()
+    })
+  },
+  getdata:function(){
     request({
       url: "Menus/GetMenusList",
       method: "get",
