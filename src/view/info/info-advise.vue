@@ -12,6 +12,7 @@
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row>
       <el-table-column label="内容" align="left" prop="Details"></el-table-column> 
+      <el-table-column label="类型" align="left" prop="TypeStr"></el-table-column> 
       <el-table-column label="时间" align="center" prop="CreatedStr" width="180px"></el-table-column>
       <el-table-column label="操作" align="center" width="150px">
         <template slot-scope="scope">
