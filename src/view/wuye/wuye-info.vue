@@ -12,8 +12,8 @@
           <div class="text item">地址:{{list.Address}}</div>
         </el-card> 
       </el-col>
-      <el-col :span="12">        
-        <el-card class="box-card">          
+      <!-- <el-col :span="12">         -->
+        <!-- <el-card class="box-card">          
           <span>支付</span>
           <el-divider content-position="left">支付配置</el-divider>
           <el-form
@@ -46,8 +46,8 @@
             <el-button type="primary" @click="sub">确定</el-button>
           </div>      
           
-        </el-card> 
-      </el-col>
+        </el-card>  -->
+      <!-- </el-col> -->
     </el-row>  
     
   </div>

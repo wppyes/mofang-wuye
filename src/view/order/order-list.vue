@@ -9,13 +9,6 @@
         clearable
       />
       <el-input
-        placeholder="用户编号"
-        v-model="listQuery.userid"
-        style="width: 150px;"
-        class="filter-item"
-        clearable
-      />
-      <el-input
         placeholder="产品名字"
         v-model="listQuery.productname"
         style="width: 150px;"
@@ -29,25 +22,6 @@
         class="filter-item"
         clearable
       />
-      <el-select
-        v-model="listQuery.status"
-        placeholder="订单状态"
-        clearable
-        style="width: 150px"
-        class="filter-item"
-      >
-        <el-option v-for="item in Model" :label="item.Text" :value="item.Value" :key="item.Value"></el-option>
-      </el-select>
-      
-      <el-select
-        v-model="listQuery.code"
-        placeholder="物业选择"
-        clearable
-        style="width: 150px"
-        class="filter-item"
-      >
-        <el-option v-for="item in CompanyList" :label="item.CellName" :value="item.Code" :key="item.Code"></el-option>
-      </el-select>
         <el-date-picker
         class="filter-item"
         v-model="value7"
@@ -70,7 +44,7 @@
       >下载订单</el-button>
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row>
-      <el-table-column label="编号" align="left" prop="PayOrderNum">
+      <el-table-column label="编号" align="left" prop="PayOrderNum" width="210px">
         <template slot-scope="scope">
          UserId：{{scope.row.UserId}}<br/>内部：{{scope.row.OrderNum}}<br/>支付：{{scope.row.PayOrderNum}}
         </template>
@@ -85,27 +59,27 @@
       <el-table-column label="支付" align="left" prop="PayAmount" width="160px">
          <template slot-scope="scope">
           <span>展示价格：{{scope.row.Amount}}</span>元 <br/>
-          类型：<span v-text="setype(scope.row.Type)"></span> <br/>
+          类型：<span >{{scope.row.TypeStr}}</span> <br/>
           <span v-if="scope.row.Type!=1">积分：{{scope.row.IntegralPrice}}</span>
           <br/>
           <span v-if="scope.row.Type!=0"> 现金：{{scope.row.CashPrice}}元</span>
         </template>
       </el-table-column>
-      <el-table-column label="数量" align="center" prop="Number" width="80px"></el-table-column>      
-      <el-table-column label="用户信息" align="left" prop="PayOrderNum">
+      <el-table-column label="数量" align="center" prop="Number" width="50px"></el-table-column>      
+      <el-table-column label="用户信息" align="left" prop="PayOrderNum" width="160px">
         <template slot-scope="scope">
-         物业名称：{{scope.row.CellName}}<br/>姓名：{{scope.row.Name}}<br/>电话：{{scope.row.Phone}}
+         昵称：{{scope.row.NickName}}<br/>电话：{{scope.row.Phone}}
         </template>
       </el-table-column>
-      <el-table-column label="时间" align="center" prop="CreatedStr" width="180px"></el-table-column>
-      <el-table-column label="状态" align="center" prop="Status" width="90px">
-        <template slot-scope="scope">
-          <span :class="'status'+scope.row.Status" v-text="setliexing(scope.row.Status)"></span>
-        </template>
+      <el-table-column label="时间" align="center" prop="CreatedStr" width="160px"></el-table-column>
+      <el-table-column label="状态" align="center" prop="StatusStr" width="70px">
+       
       </el-table-column>
-      <el-table-column label="操作" align="center" width="120px">
+      <el-table-column label="操作" align="center" width="150px">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="detail(scope.row)">详情</el-button>
+          <!-- <el-button size="mini" type="primary" @click="detail(scope.row)">详情</el-button> -->
+          <!-- <el-button size="mini" type="primary" v-if="scope.row.Status==1" @click="change(scope.row,6,'发货')">发货</el-button> -->
+          <el-button size="mini" type="primary" v-if="scope.row.Status==6" @click="change(scope.row,3,'签收')">签收</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -135,7 +109,6 @@ export default {
   data() {
     return {
       titles:'',
-      Model: [],
       list: [], //列表
       total: 0, //总数量
       listLoading: false, //列表加载
@@ -146,24 +119,18 @@ export default {
         //搜素分页处理
         pageIndex: 1,
         pageSize: 6,
-        status: "",  
         ordernum: "",
-        userid: "",
         productname: "",      
         starttime:'',
         endtime:'',
-        code:'',
         name:''
       },
       item:{},
-      TypeList:[],
-      CompanyList:[]
 
     };
   },
   created() {
     this.getList();
-    this.getmodel();
   },
   mounted() {
     this.$bus.$on("navactivechange", () => {
@@ -182,13 +149,32 @@ export default {
     }
   },
   methods: { 
-    setype(type){
-      for(let i in this.TypeList){
-        if(this.TypeList[i].Value==type){
-          return this.TypeList[i].Text;
-        }
-      }
-    },
+    change(row,value,title) {
+      var str= '确认要'+title+'该订单吗？';
+      var data = this.$qs.stringify({ ordernum: row.OrderNum,userid:row.UserId});
+      this.$confirm(str, "提示", {
+        dangerouslyUseHTMLString: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+      })
+        .then(() => {
+          request({
+            url: "Orders/UpdateOrders",
+            method: "post",
+            data
+          }).then(response => {
+            if (response.Status==1) {
+              this.$message({
+                message: response.Msg,
+                type: "success"
+              });
+              row.Status=value;
+              row.StatusStr='已签收';
+            }
+          });
+        })
+        .catch(() => {});
+    },     
     handleDownload(){
       this.downloadLoading = true;
       this.$confirm("确定要下载订单吗？", '提示', {
@@ -235,30 +221,10 @@ export default {
       }))
     },
     detail(row) {      
-      this.titles=row.Name+'的订单详情';
+      this.titles=row.NickName+'的订单详情';
       this.dialogdingdan=true;
       this.item=row;
       
-    },
-    getmodel() {
-      request({
-        url: "Orders/DDL",
-        method: "get",
-        params: {}
-      }).then(response => {
-        if (response.Status == 1) {
-          this.Model = response.Model;
-          this.TypeList=response.TypeList;
-          this.CompanyList=response.CompanyList;
-        }
-      });
-    },
-    setliexing(type) {
-      for (let i in this.Model) {
-        if (this.Model[i].Value == type) {
-          return this.Model[i].Text;
-        }
-      }
     },
     getList() {
       this.listLoading = true;

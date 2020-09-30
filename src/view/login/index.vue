@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">后台登录</h3>
+        <h3 class="title">叮当优家物业管理系统</h3>
       </div>
 
       <el-form-item prop="UniqueId">
@@ -18,7 +18,7 @@
         </span>
         <el-input
           v-model="loginForm.UniqueId"
-          placeholder="请输入系统编号"
+          placeholder="请输入机构编号"
           name="UniqueId"
           type="text"
           auto-complete="on"
@@ -80,7 +80,7 @@ export default {
       path: "",
       loginRules: {
         UniqueId: [
-          { required: true, trigger: "blur", message: "用户名必须填写！" },
+          { required: true, trigger: "blur", message: "机构编号必须填写！" },
         ],
         username: [
           { required: true, trigger: "blur", message: "用户名必须填写！" },

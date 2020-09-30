@@ -24,10 +24,19 @@
          <span :class="'status'+scope.row.Status">{{scope.row.StatusStr}}</span>
         </template>
       </el-table-column>  
-      <el-table-column label="操作" align="center" width="100px">
+      <el-table-column label="操作" align="center" width="200px">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="handle(scope.row)" v-if="scope.row.Status==0">
-            操作
+          <el-button size="mini" type="primary" @click="handle(scope.row,1,'受理')" v-if="scope.row.Status==0">
+            受理
+          </el-button>
+          <el-button size="mini" type="danger" @click="handle(scope.row,4,'拒绝')" v-if="scope.row.Status==0">
+            拒绝
+          </el-button>
+          <el-button size="mini" type="primary" @click="handle(scope.row,2,'处理')" v-if="scope.row.Status==1">
+            处理
+          </el-button>
+          <el-button size="mini" type="primary" @click="handle(scope.row,3,'处理')" v-if="scope.row.Status==2">
+            完成
           </el-button>
           <el-button size="mini" type="primary" @click="show(scope.row)">
             详情
@@ -118,9 +127,9 @@ export default {
       this.listQuery.pageIndex = 1;
       this.getList();
     },   
-    handle(row){
-      var data = this.$qs.stringify({ Id: row.Id});
-      this.$confirm("确定已处理该问题吗？", "提示", {
+    handle(row,status,str){
+      var data = this.$qs.stringify({ Id: row.Id,Status:status});
+      this.$confirm("确定"+str+"该问题吗？", "提示", {
         dangerouslyUseHTMLString: true,
         confirmButtonText: "确定",
         cancelButtonText: "取消"
@@ -136,8 +145,8 @@ export default {
                 message: response.Msg,
                 type: "success"
               });              
-              row.Status=value;
-              row.StatusStr='已处理';
+              row.Status=status;
+              row.StatusStr='已'+str;
             }
           });
         })

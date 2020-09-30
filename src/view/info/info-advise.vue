@@ -44,6 +44,11 @@
         label-width="100px"
         style="width: 600px; margin-left:10px;"
       >
+        <el-form-item label="内容:">
+            <div style="line-height:24px">
+              {{detail.Details}}
+            </div>
+        </el-form-item>
         <el-form-item label="意见图片：">
             <el-image v-for="item in imgs"
               style="width: 80px; height: 80px; margin:10px"
@@ -51,6 +56,21 @@
               :key="item"
               :preview-src-list="imgs">
             </el-image>
+        </el-form-item>
+        <el-form-item label="投诉时间:">
+            <div style="line-height:38px">
+              {{detail.CreatedStr}}
+            </div>
+        </el-form-item>
+        <el-form-item label="最近处理:">
+            <div style="line-height:38px">
+              {{detail.UpdateTimeStr}}
+            </div>
+        </el-form-item>
+        <el-form-item label="状态:">
+            <div style="line-height:38px">
+              {{detail.StatusStr}}
+            </div>
         </el-form-item>
         <!-- <el-form-item label="回复：" prop="Reply">
           <el-input type="textarea" v-model="temp.Reply" placeholder="请填写回复内容" :disabled="isreplay==1" />
@@ -87,7 +107,8 @@ export default {
       temp:{
         Id:'',
         Reply:''
-      },      
+      },     
+      detail:{}, 
       isreplay:'',
       rules: {
         Reply: [
@@ -174,6 +195,7 @@ export default {
         this.imgs=JSON.parse(row.Img)
       }
       this.dialogFormVisible=true;
+      this.detail=row;
       this.dialogStatus='详情';
        this.$nextTick(() => {
         this.$refs["dataForm"].clearValidate();

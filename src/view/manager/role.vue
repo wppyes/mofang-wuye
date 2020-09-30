@@ -91,18 +91,18 @@ export default {
       this.getdata()
     })
   },
-  getdata:function(){
-    request({
-      url: "Menus/GetMenusList",
-      method: "get",
-      params: {}
-    }).then(response => {
-      if(response.Status==1){ 
-      this.menulist = response.List;
-      }
-    });
-  },
   methods: {
+    getdata:function(){
+      request({
+        url: "Menus/GetMenusList",
+        method: "get",
+        params: {}
+      }).then(response => {
+        if(response.Status==1){ 
+        this.menulist = response.List;
+        }
+      });
+    },
     handleditor(row, title, creat) {
       this.temp = {
         Id: row.Id,
