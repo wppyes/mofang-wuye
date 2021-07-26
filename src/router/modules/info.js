@@ -29,6 +29,13 @@ const infoRouter = {
       }
     },
     {
+      path: 'info-advise/huifu',
+      component: () => import('@/view/info/huifu'),
+      meta: {
+        title: '投诉建议'
+      }
+    },
+    {
       path: 'info-baoxiu',
       component: () => import('@/view/info/info-baoxiu'),
       meta: {

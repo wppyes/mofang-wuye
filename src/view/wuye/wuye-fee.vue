@@ -35,6 +35,8 @@
       </el-table-column>  
       <el-table-column label="价格" align="center" prop="ActualPrice"></el-table-column>  
       </el-table-column>  
+      <el-table-column label="时间" align="center" prop="CreatedStr"></el-table-column>  
+      </el-table-column>  
       <!-- <el-table-column label="操作" align="center">
         <template slot-scope="scope">
          

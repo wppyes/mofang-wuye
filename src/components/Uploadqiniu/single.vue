@@ -43,7 +43,7 @@ export default {
   methods: {
     getTocken() {
        request({
-          url: "Upload/GetToken",
+          url: "Currency/GetToken",
           method: "get",
           params: {}
         }).then(response => {
@@ -57,10 +57,11 @@ export default {
       var keys=''   
       const isJPG = param.file.type === "image/jpeg";
       const isPNG = param.file.type === "image/png";
+      var tempkey=window.location.hash.split('/')[1];
       if(isJPG){
-        keys=new Date().getTime()+'.jpg'
+        keys=tempkey+'/pic/'+new Date().getTime()+'.jpg'
       } if(isPNG){
-        keys=new Date().getTime()+'.png'
+        keys=tempkey+'/pic/'+new Date().getTime()+'.png'
       }
       const key = keys;
       const token = this.qiniu.token; //从服务器拿的并存在本地data里

@@ -14,6 +14,9 @@ import userRouter from './modules/user'
 import baseRouter from './modules/base'
 import communityRouter from './modules/community'
 import banshichuRouter from './modules/banshichu'
+import starRouter from './modules/star'
+import hospitalRouter from './modules/hospital'
+import renyuanRouter from './modules/renyuan'
 export const constantRouterMap = [
   {
     path: '/',
@@ -71,7 +74,10 @@ export const constantRouterMap = [
   userRouter,
   baseRouter,
   communityRouter,
-  banshichuRouter
+  banshichuRouter,
+  starRouter,
+  hospitalRouter,
+  renyuanRouter
 ]
 const router = new Router({
   // mode: 'history', // require service support

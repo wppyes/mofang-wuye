@@ -8,12 +8,25 @@
         class="filter-item"
         clearable
       />   
+      <el-select
+        v-model="listQuery.Type"
+        placeholder="类型"
+        clearable
+        style="width: 200px"
+        class="filter-item"        
+      >
+        <el-option v-for="item in CategoryList" :label="item.Name" :value="item.Id" :key="item.Id"></el-option>
+      </el-select> 
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>   
     </div>
     <el-table v-loading="listLoading" :data="list" border fit highlight-current-row>
-      <el-table-column label="类型" align="center" prop="TypeStr" width="120px"></el-table-column>
+      <el-table-column label="类型" align="center" prop="Type" width="120px">
+        <template slot-scope="scope">
+         <span v-text="settype(scope.row.Type)"></span>
+        </template>
+      </el-table-column> 
       <el-table-column label="内容" align="left" prop="Details"></el-table-column> 
-      <el-table-column label="地址" align="center" prop="CreatedStr" width="180px">
+      <el-table-column label="地址" align="center" width="180px">
         <template slot-scope="scope">
          <span v-text="setaddress(scope.row)"></span>
         </template>
@@ -24,7 +37,7 @@
          <span :class="'status'+scope.row.Status">{{scope.row.StatusStr}}</span>
         </template>
       </el-table-column>  
-      <el-table-column label="操作" align="center" width="200px">
+      <el-table-column label="操作" align="center" width="230px">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="handle(scope.row,1,'受理')" v-if="scope.row.Status==0">
             受理
@@ -84,19 +97,37 @@ export default {
       listQuery: {
         pageIndex: 1,
         pageSize: 15,
-        name:''
+        name:'',
+        Type:''
       },
+      CategoryList:[],
       img:[],      
       detail:'',
       dialogFormVisible:false,
     };
   },
-  created() {  
+  created() {      
+    request({
+      url: "Guarantee/GetDDL",
+      method: "get",
+      params: {}
+    }).then(response => {
+      if (response.Status == 1) {
+        this.CategoryList=response.List;
+      }
+    });
     this.getList(); 
   },
   mounted () {
   },  
   methods: {
+    settype(type){
+      for(let i in this.CategoryList){
+        if(this.CategoryList[i].Id == type){
+          return this.CategoryList[i].Name
+        }
+      }
+    },
     setaddress(row){
       let str=JSON.parse(row.UserJson);
       return str.Tung+'号楼'+str.Unit+'单元'+str.Number;
